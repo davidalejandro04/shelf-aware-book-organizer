@@ -1,6 +1,10 @@
 
 # Book Renamer and Organizer
 
+
+![imagen](https://github.com/user-attachments/assets/977bce92-cbf5-4f86-89f4-ea40fc7b3f08)
+
+
 This project is a Python-based tool designed to process and organize digital books (PDF and EPUB formats). It uses advanced AI models to infer book titles and subjects based on their content and organizes them into structured directories. The tool supports Optical Character Recognition (OCR) for PDFs without embedded text and handles metadata extraction for EPUB files.
 
 ---
