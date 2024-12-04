@@ -42,7 +42,7 @@ pillow
 ollama
 tqdm
 
-External Tools
+## External Tools
 
     Tesseract OCR (Required for OCR on scanned PDFs):
         Install from Tesseract GitHub and ensure it is added to your system PATH.
@@ -50,18 +50,18 @@ External Tools
     Ghostscript (Optional for additional PDF processing):
         Install via your package manager (brew install ghostscript on macOS or sudo apt install ghostscript on Linux).
 
-Installation
+## Installation
 
     Clone the Repository:
 
 git clone https://github.com/yourusername/book-renamer.git
 cd book-renamer
 
-Install Dependencies:
+## Install Dependencies:
 
 pip install -r requirements.txt
 
-Verify Tesseract Installation:
+## Verify Tesseract Installation:
 
 Ensure Tesseract is installed and accessible from the command line:
 
@@ -69,29 +69,29 @@ Ensure Tesseract is installed and accessible from the command line:
 
 Usage
 
-Run the script from the command line with the following command:
+## Run the script from the command line with the following command:
 
 python renamebooks.py /path/to/books
 
-Optional Arguments
+## Optional Arguments
 
     --model: Specify the AI model to use (default: llama3.2).
     --log: Set the logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL). Default is INFO.
     --pages: Number of pages to read from PDFs for text extraction. Default is 15.
     --ocr_pages: Number of pages to process with OCR. Default is 5.
 
-Example:
+## Example:
 
 python renamebooks.py /path/to/books --model llama4.0 --log DEBUG --pages 20
 
-Folder Structure
+## Folder Structure
 
     Input Folder: Specify a folder containing PDFs and EPUBs to process.
     Output Folders:
         Renamed/: Contains renamed files organized into subject-specific folders.
         Not renamed/: Contains files that couldn't be processed or renamed.
 
-Features in Detail
+## Features in Detail
 
     Title Inference:
         Extracts titles from document metadata or generates them using AI.
@@ -107,7 +107,7 @@ Features in Detail
     Error Handling:
         Moves unprocessable files to a Not renamed folder for review.
 
-Contributing
+## Contributing
 
 Contributions are welcome! To contribute:
 
@@ -125,6 +125,6 @@ Commit changes and push:
 
     Open a pull request.
 
-License
+## License
 
 This project is licensed under the MIT License. See the LICENSE file for details.
