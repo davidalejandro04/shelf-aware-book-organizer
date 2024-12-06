@@ -1,0 +1,4 @@
+
+*.pdf
+*.epub
+/__pycache__
