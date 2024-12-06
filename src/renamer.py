@@ -14,6 +14,10 @@ class Renamer:
         self.total_count = 0
 
     def process_file(self, args):
+        """
+        Process and rename a single file. If a title refinement fails due to an inability response,
+        keep the original metadata title and skip categorization.
+        """
         file_path, renamed_path, not_renamed_path = args
         file_name = os.path.basename(file_path)
         try:
@@ -21,6 +25,7 @@ class Renamer:
                 extension = os.path.splitext(file_name)[1].lower()
                 text = ""
                 metadata_title = None
+                valid_for_sorting = True  # Flag to determine if the file should be categorized
 
                 # Extract metadata title
                 if extension == ".pdf":
@@ -28,27 +33,25 @@ class Renamer:
                 elif extension == ".epub":
                     metadata_title = extract_epub_metadata(file_path)
 
-                # If no metadata title, fallback to text extraction
+                # Refine metadata title or fallback to text inference
                 if metadata_title:
-                    # Extract text to improve metadata title
                     if extension == ".pdf":
                         text = self.text_extractor.extract_text_from_pdf(file_path)
                     elif extension == ".epub":
                         text = self.text_extractor.extract_text_from_epub(file_path)
 
-                    new_title = self.inference.improve_title_from_metadata(metadata_title, text) if text else metadata_title
+                    new_title, valid_for_sorting = self.inference.improve_title_from_metadata(metadata_title, text)
                 else:
-                    # Metadata not available, do full text extraction
                     if extension == ".pdf":
                         text = self.text_extractor.extract_text_from_pdf(file_path)
                     elif extension == ".epub":
                         text = self.text_extractor.extract_text_from_epub(file_path)
 
                     if not text.strip():
-                        # No text available, cannot infer a title
+                        # No text available, move to not renamed
                         move(file_path, os.path.join(not_renamed_path, file_name))
                         return
-                    new_title = self.inference.infer_title(text)
+                    new_title, valid_for_sorting = self.inference.infer_title(text), True
 
                 # Rename file
                 new_file_name = f"{new_title}{extension}"
@@ -62,12 +65,20 @@ class Renamer:
                     counter += 1
 
                 os.rename(file_path, new_file_path)
-                self.success_count += 1
+
+                # Add sorting exclusion metadata
+                if valid_for_sorting:
+                    return new_file_path, True  # Include in sorting
+                else:
+                    logging.info(f"File '{file_name}' excluded from sorting due to inability response.")
+                    return new_file_path, False  # Exclude from sorting
+
             else:
                 move(file_path, os.path.join(not_renamed_path, file_name))
         except Exception as e:
             logging.error(f"Error processing file '{file_name}': {e}")
             move(file_path, os.path.join(not_renamed_path, file_name))
+            return None, False  # Exclude on error
 
     def rename_files_in_folder(self, folder_path):
         """

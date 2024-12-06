@@ -1,12 +1,11 @@
 import logging
-
 class Config:
     """Configuration parameters for the BookRenamer and Categorizer."""
 
     def __init__(self):
         self.model_name = "llama3.2"
         self.default_subjects = [
-            "Physics", "Math", "Computer Science", "Electronic Engineering",
+            "Physics", "Math", "Computer Science",
             "History", "Philosophy", "Literature", "Art",
             "Social Sciences", "Sciences", "Other"
         ]
@@ -14,5 +13,7 @@ class Config:
         self.pages_to_read_ocr = 5
         self.text_snippet_length = 3000
         self.max_title_length = 100
-        self.log_level = logging.INFO
+        self.log_level = logging.ERROR
         self.verbose = False
+        self.max_categories = 8  # Maximum number of categories
+        self.skip_categories = False  # Flag to skip category creation

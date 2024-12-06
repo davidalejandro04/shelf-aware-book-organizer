@@ -21,6 +21,8 @@ def main():
     parser.add_argument('--pages', type=int, default=15, help='Number of pages to read from PDFs (default: 15)')
     parser.add_argument('--ocr_pages', type=int, default=5, help='Number of pages to read using OCR (default: 5)')
     parser.add_argument('--verbose', action='store_true', help='Enable verbose logging')
+    parser.add_argument('--max_categories', type=int, default=7, help='Maximum number of categories (default: 7)')
+    parser.add_argument('--skip_categories', action='store_true', help='Skip category creation and assign to predefined categories only')
     args = parser.parse_args()
     folder_path = args.folder
 
@@ -34,6 +36,8 @@ def main():
     config.pages_to_read_pdf = args.pages
     config.pages_to_read_ocr = args.ocr_pages
     config.verbose = args.verbose
+    config.max_categories = args.max_categories
+    config.skip_categories = args.skip_categories
 
     if config.verbose:
         config.log_level = logging.DEBUG
